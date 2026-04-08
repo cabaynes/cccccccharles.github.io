@@ -78,12 +78,11 @@
             for (let i = 0; i < rows; i++) {
                 const div = document.createElement('div');
                 div.className = 'row';
-                div.style.animationDelay = (i * 0.15) + 's';
+                const scrollDuration = 20 + (i % 3) * 5;
+                div.style.animation = 'pulse 3s ease-in-out ' + (i * 0.15) + 's infinite, scroll ' + scrollDuration + 's linear infinite';
                 // Start offset: pull left by one word width so the scroll has room
                 const baseOffset = i % 2 === 1 ? -(wordWidth / 2) : 0;
                 div.style.marginLeft = (baseOffset - wordWidth) + 'px';
-                // Add scroll animation
-                div.style.animation += ', scroll ' + (20 + (i % 3) * 5) + 's linear infinite';
                 div.style.setProperty('--scroll-dist', wordWidth + 'px');
                 div.textContent = word.repeat(repeats + 2);
                 container.appendChild(div);
