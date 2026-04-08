@@ -69,7 +69,10 @@
                 const div = document.createElement('div');
                 div.className = 'row';
                 div.style.animationDelay = (i * 0.15) + 's';
-                div.textContent = word.repeat(repeats);
+                if (i % 2 === 1) {
+                    div.style.transform = 'translateX(-' + (fontSize * word.length * 0.65 / 2) + 'px)';
+                }
+                div.textContent = word.repeat(repeats + 1);
                 container.appendChild(div);
             }
         }
