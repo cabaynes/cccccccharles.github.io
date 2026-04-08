@@ -232,7 +232,7 @@
             }).then(function(response) {
                 return response.json();
             }).then(function(data) {
-                if (data.success) {
+                if (data.success === 'true' || data.success === true) {
                     msg.className = 'message success';
                     msg.textContent = 'Submitted successfully! Thank you.';
                     form.reset();
@@ -241,9 +241,9 @@
                     msg.className = 'message error';
                     msg.textContent = data.message || 'Something went wrong. Please try again.';
                 }
-            }).catch(function() {
+            }).catch(function(err) {
                 msg.className = 'message error';
-                msg.textContent = 'Something went wrong. Please try again.';
+                msg.textContent = 'Connection error: ' + err.message;
             });
         }
     </script>
