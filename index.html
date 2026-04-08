@@ -75,16 +75,14 @@
             const wordWidth = measure.getBoundingClientRect().width;
             container.removeChild(measure);
 
-            // Scroll by multiple words so the loop point is very infrequent
-            const scrollWords = 5;
+            const scrollWords = 20;
             const scrollDist = wordWidth * scrollWords;
-            const pixelsPerSecond = 30;
-            const scrollDuration = scrollDist / pixelsPerSecond;
 
             container.innerHTML = '';
             for (let i = 0; i < rows; i++) {
                 const div = document.createElement('div');
                 div.className = 'row';
+                const scrollDuration = 20 + (i % 3) * 5;
                 div.style.animation = 'pulse 3s ease-in-out ' + (i * 0.15) + 's infinite, scroll ' + scrollDuration + 's linear infinite';
                 const baseOffset = i % 2 === 1 ? -(wordWidth / 2) : 0;
                 div.style.marginLeft = (baseOffset - scrollDist) + 'px';
