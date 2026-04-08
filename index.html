@@ -43,7 +43,13 @@
             font-weight: 700;
             color: #00cc76;
             letter-spacing: 0.05em;
+            will-change: opacity;
             animation: pulse 3s ease-in-out infinite;
+            animation-play-state: paused;
+        }
+
+        .fonts-loaded .row {
+            animation-play-state: running;
         }
 
         @keyframes pulse {
@@ -79,6 +85,10 @@
 
         fill();
         window.addEventListener('resize', fill);
+
+        document.fonts.ready.then(function() {
+            document.body.classList.add('fonts-loaded');
+        });
     </script>
 </body>
 </html>
