@@ -77,8 +77,7 @@
             const rowHeight = measure.getBoundingClientRect().height;
             container.removeChild(measure);
 
-            const lineHeight = rowHeight * 1.1;
-            const rows = Math.ceil(window.innerHeight / lineHeight) + 1;
+            const rows = Math.ceil(window.innerHeight / rowHeight) + 2;
             const visibleWordsPerRow = Math.ceil(window.innerWidth / wordWidth) + 4;
             const repeats = visibleWordsPerRow;
 
