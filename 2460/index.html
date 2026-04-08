@@ -45,7 +45,7 @@
             margin-bottom: 0.5rem;
         }
 
-        input[type="email"],
+        input[type="tel"],
         input[type="text"] {
             width: 100%;
             padding: 0.75rem;
@@ -56,7 +56,7 @@
             margin-bottom: 1rem;
         }
 
-        input[type="email"]:focus,
+        input[type="tel"]:focus,
         input[type="text"]:focus {
             outline: none;
             border-color: #111;
@@ -157,11 +157,12 @@
                 <input type="hidden" name="_subject" value="2460 Alert Preference">
                 <input type="hidden" name="_captcha" value="false">
                 <input type="hidden" name="_template" value="table">
+                <input type="hidden" name="_next" value="https://cccccccharles.com/2460/">
                 <input type="text" name="_honey" style="display:none">
                 <input type="hidden" name="action" id="actionField" value="">
 
-                <label for="email">Email Address</label>
-                <input type="email" id="email" name="email" placeholder="you@example.com" required>
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone" placeholder="(555) 555-5555" required>
 
                 <div class="captcha">
                     <div class="captcha-question" id="captchaQuestion"></div>
@@ -201,13 +202,14 @@
         generateCaptcha();
 
         function submitForm(action) {
-            const email = document.getElementById('email');
+            const phone = document.getElementById('phone');
             const answer = document.getElementById('captchaAnswer');
             const msg = document.getElementById('message');
 
-            if (!email.value || !email.checkValidity()) {
+            const digits = phone.value.replace(/\D/g, '');
+            if (digits.length !== 10) {
                 msg.className = 'message error';
-                msg.textContent = 'Please enter a valid email address.';
+                msg.textContent = 'Please enter a valid 10-digit phone number.';
                 return;
             }
 
