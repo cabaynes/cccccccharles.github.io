@@ -101,10 +101,12 @@
                 div.style.marginLeft = (baseOffset - scrollDist) + 'px';
                 div.style.setProperty('--scroll-dist', scrollDist + 'px');
                 if (i === specialRow) {
-                    // Place a red link every visibleWords words so one is always on screen
+                    // Place a red link every visibleWords words, starting at the scroll offset
+                    // so the first one appears near the left edge of the visible area
+                    const firstLink = scrollWords + Math.floor(Math.random() * 3);
                     let html = '';
                     for (let j = 0; j < totalWords; j++) {
-                        if (j % visibleWords === 0) {
+                        if (j >= firstLink && (j - firstLink) % visibleWords === 0) {
                             html += link;
                         } else {
                             html += word;
