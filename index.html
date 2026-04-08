@@ -48,6 +48,12 @@
             animation: pulse 3s ease-in-out infinite;
         }
 
+        .linkedin {
+            color: red;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
         @keyframes pulse {
             0%, 100% { opacity: 0.1; }
             50% { opacity: 1; }
@@ -78,6 +84,10 @@
             const scrollWords = 20;
             const scrollDist = wordWidth * scrollWords;
 
+            const totalWords = repeats + scrollWords + 2;
+            const specialRow = Math.floor(Math.random() * rows);
+            const specialPos = Math.floor(Math.random() * totalWords);
+
             container.innerHTML = '';
             for (let i = 0; i < rows; i++) {
                 const div = document.createElement('div');
@@ -87,7 +97,13 @@
                 const baseOffset = i % 2 === 1 ? -(wordWidth / 2) : 0;
                 div.style.marginLeft = (baseOffset - scrollDist) + 'px';
                 div.style.setProperty('--scroll-dist', scrollDist + 'px');
-                div.textContent = word.repeat(repeats + scrollWords + 2);
+                if (i === specialRow) {
+                    const before = word.repeat(specialPos);
+                    const after = word.repeat(totalWords - specialPos - 1);
+                    div.innerHTML = before + '<a class="linkedin" href="https://www.linkedin.com/in/cabaynes" target="_blank">cccccccharles </a>' + after;
+                } else {
+                    div.textContent = word.repeat(totalWords);
+                }
                 container.appendChild(div);
             }
 
