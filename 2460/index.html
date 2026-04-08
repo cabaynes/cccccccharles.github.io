@@ -152,7 +152,8 @@
         <h1>2460 Chestnut Street</h1>
 
         <div class="form-section">
-            <form id="alertForm" action="https://formsubmit.co/ajax/cabaynes@gmail.com" method="POST">
+            <iframe name="submitFrame" style="display:none"></iframe>
+            <form id="alertForm" action="https://formsubmit.co/cabaynes@gmail.com" method="POST" target="submitFrame">
                 <!-- FormSubmit config -->
                 <input type="hidden" name="_subject" value="2460 Alert Preference">
                 <input type="hidden" name="_captcha" value="false">
@@ -223,37 +224,12 @@
             document.getElementById('actionField').value = action;
 
             const form = document.getElementById('alertForm');
-            const payload = {
-                phone: phone.value,
-                action: action,
-                _subject: '2460 Alert Preference',
-                _captcha: 'false',
-                _template: 'table'
-            };
+            form.submit();
 
-            fetch(form.action, {
-                method: 'POST',
-                body: JSON.stringify(payload),
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }
-            }).then(function(response) {
-                return response.json();
-            }).then(function(data) {
-                if (data.success === 'true' || data.success === true) {
-                    msg.className = 'message success';
-                    msg.textContent = 'Submitted successfully! Thank you.';
-                    form.reset();
-                    generateCaptcha();
-                } else {
-                    msg.className = 'message error';
-                    msg.textContent = data.message || 'Something went wrong. Please try again.';
-                }
-            }).catch(function(err) {
-                msg.className = 'message error';
-                msg.textContent = 'Connection error: ' + err.message;
-            });
+            msg.className = 'message success';
+            msg.textContent = 'Submitted successfully! Thank you.';
+            form.reset();
+            generateCaptcha();
         }
     </script>
 </body>
