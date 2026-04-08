@@ -66,20 +66,21 @@
         function fill() {
             const container = document.getElementById('fill');
             const word = 'cccccccharles ';
-            const fontSize = window.innerWidth * 0.03;
-            const lineHeight = fontSize * 1.1;
-            const rows = Math.ceil(window.innerHeight / lineHeight) + 1;
-            const charsPerRow = Math.ceil(window.innerWidth / (fontSize * 0.65)) + 20;
-            const repeats = Math.ceil(charsPerRow / word.length) + 4;
 
-            // Measure word width precisely using getBoundingClientRect
+            // Measure actual rendered word size (respects clamp())
             const measure = document.createElement('span');
             measure.className = 'row';
             measure.style.cssText = 'position:absolute;visibility:hidden;animation:none;opacity:1;';
             measure.textContent = word;
             container.appendChild(measure);
             const wordWidth = measure.getBoundingClientRect().width;
+            const rowHeight = measure.getBoundingClientRect().height;
             container.removeChild(measure);
+
+            const lineHeight = rowHeight * 1.1;
+            const rows = Math.ceil(window.innerHeight / lineHeight) + 1;
+            const visibleWordsPerRow = Math.ceil(window.innerWidth / wordWidth) + 4;
+            const repeats = visibleWordsPerRow;
 
             const scrollWords = 20;
             const scrollDist = wordWidth * scrollWords;
