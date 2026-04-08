@@ -44,7 +44,7 @@
             color: #00cc76;
             letter-spacing: 0.05em;
             opacity: 0.1;
-            will-change: opacity;
+            will-change: opacity, transform;
             animation: pulse 3s ease-in-out infinite;
         }
 
@@ -64,19 +64,39 @@
             const lineHeight = fontSize * 1.1;
             const rows = Math.ceil(window.innerHeight / lineHeight) + 1;
             const charsPerRow = Math.ceil(window.innerWidth / (fontSize * 0.65)) + 20;
-            const repeats = Math.ceil(charsPerRow / word.length) + 2;
+            const repeats = Math.ceil(charsPerRow / word.length) + 4;
+
+            // Measure one word width by creating a temp element
+            const measure = document.createElement('span');
+            measure.style.cssText = 'position:absolute;visibility:hidden;font:700 ' + fontSize + 'px Montserrat,sans-serif;letter-spacing:0.05em;white-space:nowrap;';
+            measure.textContent = word;
+            document.body.appendChild(measure);
+            const wordWidth = measure.offsetWidth;
+            document.body.removeChild(measure);
 
             container.innerHTML = '';
             for (let i = 0; i < rows; i++) {
                 const div = document.createElement('div');
                 div.className = 'row';
                 div.style.animationDelay = (i * 0.15) + 's';
-                if (i % 2 === 1) {
-                    div.style.transform = 'translateX(-' + (fontSize * word.length * 0.65 / 2) + 'px)';
-                }
-                div.textContent = word.repeat(repeats + 1);
+                // Start offset: pull left by one word width so the scroll has room
+                const baseOffset = i % 2 === 1 ? -(wordWidth / 2) : 0;
+                div.style.marginLeft = (baseOffset - wordWidth) + 'px';
+                // Add scroll animation
+                div.style.animation += ', scroll ' + (20 + (i % 3) * 5) + 's linear infinite';
+                div.style.setProperty('--scroll-dist', wordWidth + 'px');
+                div.textContent = word.repeat(repeats + 2);
                 container.appendChild(div);
             }
+
+            // Inject the scroll keyframes with the measured word width
+            let styleEl = document.getElementById('scroll-style');
+            if (!styleEl) {
+                styleEl = document.createElement('style');
+                styleEl.id = 'scroll-style';
+                document.head.appendChild(styleEl);
+            }
+            styleEl.textContent = '@keyframes scroll { from { transform: translateX(0); } to { transform: translateX(var(--scroll-dist)); } }';
         }
 
         document.fonts.ready.then(function() {
