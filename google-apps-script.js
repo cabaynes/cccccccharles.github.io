@@ -22,7 +22,7 @@ function doPost(e) {
     var subject = "Charles Baynes Home Alerts — " + action;
     var body = "Phone: " + phone + "\nAction: " + action + "\nTimestamp: " + timestamp.toLocaleString();
 
-    GmailApp.sendEmail("2460@cccccccharles.com", subject, body);
+    GmailApp.sendEmail("cabaynes@gmail.com", subject, body);
 
     return ContentService
       .createTextOutput(JSON.stringify({ success: true }))
