@@ -82,7 +82,7 @@
             for (let i = 0; i < rows; i++) {
                 const div = document.createElement('div');
                 div.className = 'row';
-                const scrollDuration = 20 + (i % 3) * 5;
+                const scrollDuration = 100 + (i % 3) * 25;
                 div.style.animation = 'pulse 3s ease-in-out ' + (i * 0.15) + 's infinite, scroll ' + scrollDuration + 's linear infinite';
                 const baseOffset = i % 2 === 1 ? -(wordWidth / 2) : 0;
                 div.style.marginLeft = (baseOffset - scrollDist) + 'px';
