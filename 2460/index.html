@@ -190,15 +190,7 @@
         <div class="form-section">
             <p class="explainer">Use this form to opt in to receive automated informational SMS alerts about monitored door and entry events. Message frequency varies based on activity. Message and data rates may apply. Reply STOP to opt out. Reply HELP for help.</p>
 
-            <iframe name="submitFrame" style="display:none"></iframe>
-            <form id="alertForm" action="https://formsubmit.co/81ae5a33a98b15e9bda622732269d268" method="POST" target="submitFrame">
-                <!-- FormSubmit config -->
-                <input type="hidden" name="_subject" value="Charles Baynes Home Alerts — Opt-in/Opt-out">
-                <input type="hidden" name="_captcha" value="false">
-                <input type="hidden" name="_template" value="table">
-                <input type="text" name="_honey" style="display:none">
-                <input type="hidden" name="action" id="actionField" value="">
-
+            <form id="alertForm">
                 <label for="phone">Phone Number</label>
                 <input type="tel" id="phone" name="phone" placeholder="(555) 555-5555" required>
 
@@ -273,15 +265,30 @@
                 return;
             }
 
-            document.getElementById('actionField').value = action;
+            var btns = document.querySelectorAll('.btn');
+            btns.forEach(function(b) { b.disabled = true; });
 
-            const form = document.getElementById('alertForm');
-            form.submit();
-
-            msg.className = 'message success';
-            msg.textContent = 'Submitted successfully! Thank you.';
-            form.reset();
-            generateCaptcha();
+            fetch('https://script.google.com/macros/s/AKfycbyyhYbNBsvfyU1Ya96uovm1gxi_PlVumkoyzvuwLajbQtyIfQuDSBkEsf_9_3rywhBd/exec', {
+                method: 'POST',
+                body: JSON.stringify({ phone: phone.value, action: action })
+            }).then(function(response) {
+                return response.json();
+            }).then(function(data) {
+                if (data.success) {
+                    msg.className = 'message success';
+                    msg.textContent = 'Submitted successfully! Thank you.';
+                    document.getElementById('alertForm').reset();
+                    generateCaptcha();
+                } else {
+                    msg.className = 'message error';
+                    msg.textContent = 'Error: ' + (data.error || 'Something went wrong. Please try again.');
+                }
+            }).catch(function(err) {
+                msg.className = 'message error';
+                msg.textContent = 'Connection error: ' + err.message;
+            }).finally(function() {
+                btns.forEach(function(b) { b.disabled = false; });
+            });
         }
     </script>
 </body>
