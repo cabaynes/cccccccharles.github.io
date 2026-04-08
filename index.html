@@ -86,7 +86,9 @@
 
             const totalWords = repeats + scrollWords + 2;
             const specialRow = Math.floor(Math.random() * rows);
-            const specialPos = Math.floor(Math.random() * totalWords);
+            // How many words fit on screen at once
+            const visibleWords = Math.ceil(window.innerWidth / wordWidth) + 1;
+            const link = '<a class="linkedin" href="https://www.linkedin.com/in/cabaynes">cccccccharles </a>';
 
             container.innerHTML = '';
             for (let i = 0; i < rows; i++) {
@@ -98,9 +100,16 @@
                 div.style.marginLeft = (baseOffset - scrollDist) + 'px';
                 div.style.setProperty('--scroll-dist', scrollDist + 'px');
                 if (i === specialRow) {
-                    const before = word.repeat(specialPos);
-                    const after = word.repeat(totalWords - specialPos - 1);
-                    div.innerHTML = before + '<a class="linkedin" href="https://www.linkedin.com/in/cabaynes" target="_blank">cccccccharles </a>' + after;
+                    // Place a red link every visibleWords words so one is always on screen
+                    let html = '';
+                    for (let j = 0; j < totalWords; j++) {
+                        if (j % visibleWords === 0) {
+                            html += link;
+                        } else {
+                            html += word;
+                        }
+                    }
+                    div.innerHTML = html;
                 } else {
                     div.textContent = word.repeat(totalWords);
                 }
