@@ -14,24 +14,34 @@
             box-sizing: border-box;
         }
 
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+
         body {
             font-family: 'Montserrat', sans-serif;
-            min-height: 100vh;
+            background: #003CFF;
+        }
+
+        .fill {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
             display: flex;
-            align-items: center;
+            flex-direction: column;
             justify-content: center;
-            background: #fafafa;
-            color: #111;
+            overflow: hidden;
         }
 
-        .container {
-            text-align: center;
-            padding: 2rem;
-        }
-
-        h1 {
-            font-size: 2.5rem;
+        .row {
+            white-space: nowrap;
+            line-height: 1.1;
+            font-size: 3vw;
             font-weight: 700;
+            color: #00cc76;
             letter-spacing: 0.05em;
             animation: pulse 3s ease-in-out infinite;
         }
@@ -43,8 +53,29 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>cccccccharles</h1>
-    </div>
+    <div class="fill" id="fill"></div>
+    <script>
+        function fill() {
+            const container = document.getElementById('fill');
+            const word = 'cccccccharles ';
+            const fontSize = window.innerWidth * 0.03;
+            const lineHeight = fontSize * 1.1;
+            const rows = Math.ceil(window.innerHeight / lineHeight) + 1;
+            const charsPerRow = Math.ceil(window.innerWidth / (fontSize * 0.65)) + 20;
+            const repeats = Math.ceil(charsPerRow / word.length) + 2;
+
+            container.innerHTML = '';
+            for (let i = 0; i < rows; i++) {
+                const div = document.createElement('div');
+                div.className = 'row';
+                div.style.animationDelay = (i * 0.15) + 's';
+                div.textContent = word.repeat(repeats);
+                container.appendChild(div);
+            }
+        }
+
+        fill();
+        window.addEventListener('resize', fill);
+    </script>
 </body>
 </html>
