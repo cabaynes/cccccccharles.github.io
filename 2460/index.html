@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2460 Chestnut Street</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: #fff;
+            color: #111;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .form-section {
+            margin-bottom: 2.5rem;
+        }
+
+        label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        input[type="email"],
+        input[type="text"] {
+            width: 100%;
+            padding: 0.75rem;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+
+        input[type="email"]:focus,
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #111;
+        }
+
+        .captcha {
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .captcha-question {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .btn:hover {
+            opacity: 0.85;
+        }
+
+        .btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .btn-optin {
+            background: #111;
+            color: #fff;
+        }
+
+        .btn-optout {
+            background: #e0e0e0;
+            color: #111;
+        }
+
+        .message {
+            margin-top: 1rem;
+            padding: 0.75rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .message.success {
+            background: #e8f5e9;
+            color: #2e7d32;
+            display: block;
+        }
+
+        .message.error {
+            background: #ffebee;
+            color: #c62828;
+            display: block;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid #e0e0e0;
+            margin: 2.5rem 0;
+        }
+
+        .legal h2 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        .legal p {
+            font-size: 0.8rem;
+            color: #555;
+            margin-bottom: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>2460 Chestnut Street</h1>
+
+        <div class="form-section">
+            <form id="alertForm" action="https://formsubmit.co/2460@cccccccharles.com" method="POST">
+                <!-- FormSubmit config -->
+                <input type="hidden" name="_subject" value="2460 Alert Preference">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_template" value="table">
+                <input type="text" name="_honey" style="display:none">
+                <input type="hidden" name="action" id="actionField" value="">
+
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="you@example.com" required>
+
+                <div class="captcha">
+                    <div class="captcha-question" id="captchaQuestion"></div>
+                    <input type="text" id="captchaAnswer" placeholder="Your answer" required>
+                </div>
+
+                <div class="buttons">
+                    <button type="button" class="btn btn-optin" onclick="submitForm('Opt-in to text messages')">Opt-in to receive text messages</button>
+                    <button type="button" class="btn btn-optout" onclick="submitForm('Opt-out of text messages')">Opt out of text messages</button>
+                </div>
+            </form>
+
+            <div class="message" id="message"></div>
+        </div>
+
+        <hr>
+
+        <div class="legal">
+            <h2>Privacy Policy</h2>
+            <p>Charles Baynes Home Alerts uses SMS only to send opted-in recipients automated home-security and access notifications generated by a self-hosted Home Assistant system. We collect and use mobile phone numbers solely for delivery of these alerts. Message frequency varies based on home-security events and user settings. Message and data rates may apply. Text STOP to opt out at any time. Text HELP for help. Mobile information will not be shared with third parties or affiliates for marketing or promotional purposes.</p>
+
+            <h2>Terms and Conditions</h2>
+            <p>Program name: Charles Baynes Home Alerts. This program sends recurring automated SMS home-security and access alerts to opted-in recipients. Message frequency varies based on monitored events and system settings. Message and data rates may apply. For support, contact 2460@cccccccharles.com &mdash; To get help, text HELP. To stop receiving messages, text STOP. Consent to receive SMS messages is not a condition of any purchase.</p>
+        </div>
+    </div>
+
+    <script>
+        let captchaA, captchaB, captchaAnswer;
+
+        function generateCaptcha() {
+            captchaA = Math.floor(Math.random() * 10) + 1;
+            captchaB = Math.floor(Math.random() * 10) + 1;
+            captchaAnswer = captchaA + captchaB;
+            document.getElementById('captchaQuestion').textContent = 'What is ' + captchaA + ' + ' + captchaB + '?';
+        }
+
+        generateCaptcha();
+
+        function submitForm(action) {
+            const email = document.getElementById('email');
+            const answer = document.getElementById('captchaAnswer');
+            const msg = document.getElementById('message');
+
+            if (!email.value || !email.checkValidity()) {
+                msg.className = 'message error';
+                msg.textContent = 'Please enter a valid email address.';
+                return;
+            }
+
+            if (parseInt(answer.value) !== captchaAnswer) {
+                msg.className = 'message error';
+                msg.textContent = 'Incorrect captcha answer. Please try again.';
+                generateCaptcha();
+                answer.value = '';
+                return;
+            }
+
+            document.getElementById('actionField').value = action;
+            document.getElementById('alertForm').submit();
+        }
+    </script>
+</body>
+</html>
