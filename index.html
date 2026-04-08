@@ -85,7 +85,7 @@
             const scrollDist = wordWidth * scrollWords;
 
             const totalWords = repeats + scrollWords + 2;
-            const specialRow = Math.floor(Math.random() * rows);
+            const specialRow = Math.floor(Math.random() * Math.min(10, rows));
             // How many words fit on screen at once
             const visibleWords = Math.ceil(window.innerWidth / wordWidth) + 1;
             const link = '<a class="linkedin" href="https://www.linkedin.com/in/cabaynes">cccccccharles </a>';
