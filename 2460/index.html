@@ -157,7 +157,6 @@
                 <input type="hidden" name="_subject" value="2460 Alert Preference">
                 <input type="hidden" name="_captcha" value="false">
                 <input type="hidden" name="_template" value="table">
-                <input type="hidden" name="_next" value="https://cccccccharles.com/2460/">
                 <input type="text" name="_honey" style="display:none">
                 <input type="hidden" name="action" id="actionField" value="">
 
@@ -222,7 +221,28 @@
             }
 
             document.getElementById('actionField').value = action;
-            document.getElementById('alertForm').submit();
+
+            const form = document.getElementById('alertForm');
+            const formData = new FormData(form);
+
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: { 'Accept': 'application/json' }
+            }).then(function(response) {
+                if (response.ok) {
+                    msg.className = 'message success';
+                    msg.textContent = 'Submitted successfully! Thank you.';
+                    form.reset();
+                    generateCaptcha();
+                } else {
+                    msg.className = 'message error';
+                    msg.textContent = 'Something went wrong. Please try again.';
+                }
+            }).catch(function() {
+                msg.className = 'message error';
+                msg.textContent = 'Something went wrong. Please try again.';
+            });
         }
     </script>
 </body>
